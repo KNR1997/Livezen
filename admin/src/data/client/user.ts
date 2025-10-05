@@ -22,7 +22,6 @@ import {
 } from '@/types';
 import { API_ENDPOINTS } from './api-endpoints';
 import { HttpClient } from './http-client';
-import { HttpClient_v2 } from './http-client_v2';
 
 export const userClient = {
   me: () => {
@@ -30,9 +29,6 @@ export const userClient = {
   },
   login: (variables: LoginInput) => {
     return HttpClient.post<AuthResponse>(API_ENDPOINTS.TOKEN, variables);
-  },
-  login_v2: (variables: LoginInput) => {
-    return HttpClient_v2.post<AuthResponse_v2>(API_ENDPOINTS.TOKEN_v2, variables);
   },
   logout: () => {
     return HttpClient.post<any>(API_ENDPOINTS.LOGOUT, {});

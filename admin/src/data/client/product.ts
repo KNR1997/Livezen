@@ -10,7 +10,6 @@ import {
 import { API_ENDPOINTS } from './api-endpoints';
 import { crudFactory } from './curd-factory';
 import { HttpClient } from './http-client';
-import { HttpClient_v2 } from './http-client_v2';
 
 export const productClient = {
   ...crudFactory<Product, QueryOptions, CreateProduct>(API_ENDPOINTS.PRODUCTS),
@@ -32,30 +31,6 @@ export const productClient = {
     return HttpClient.get<ProductPaginator>(API_ENDPOINTS.PRODUCTS, {
       searchJoin: 'and',
       with: 'shop;type;categories',
-      shop_id,
-      ...params,
-      search: HttpClient.formatSearchParams({
-        type,
-        name,
-        categories,
-        shop_id,
-        product_type,
-        status,
-      }),
-    });
-  },
-  paginated_v2: ({
-    type,
-    name,
-    categories,
-    shop_id,
-    product_type,
-    status,
-    ...params
-  }: Partial<ProductQueryOptions>) => {
-    return HttpClient_v2.get<ProductPaginator>(API_ENDPOINTS.PRODUCTS_v2, {
-      searchJoin: 'and',
-      // with: 'shop;type;categories',
       shop_id,
       ...params,
       search: HttpClient.formatSearchParams({
