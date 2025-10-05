@@ -1,7 +1,8 @@
+from typing import List, Tuple
 from fastapi import HTTPException
 from tortoise.exceptions import DoesNotExist
+from tortoise.expressions import Q
 
-from livezen.auth.utils import CurrentUser
 from livezen.product.models import Product
 from livezen.wishlist.models import ToggleWishlist, Wishlist
 from livezen.wishlist.repository import WishlistRepository
@@ -32,5 +33,14 @@ class WishlistService:
             await Wishlist.create(user_id=current_user.id, product_id=product.id)
             return True
 
-    async def my_wishlist(self, current_user: CurrentUser):
-        return await self.repository.filter(user_id=current_user.id, prefetch=['product'])
+    # async def my_wishlist(self, current_user: CurrentUser):
+    #     return await self.repository.filter(user_id=current_user.id, prefetch=['product'])
+
+    async def my_wishlist_paginated(
+        self, page: int, page_size: int, search: Q = Q(), order: list = []
+    ) -> Tuple[int, List[Wishlist]]:
+        return await self.repository.paginated(page, page_size, search, order, prefetch=['product'])
+
+    async def remove(self, wishlist_id: int) -> bool:
+        """Deletes a wishlist."""
+        return await self.repository.delete(wishlist_id)

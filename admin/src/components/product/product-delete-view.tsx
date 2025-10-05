@@ -3,14 +3,12 @@ import {
   useModalAction,
   useModalState,
 } from '@/components/ui/modal/modal.context';
-import { useDeleteProductMutation, useDeleteProductMutation_v2 } from '@/data/product';
+import { useDeleteProductMutation } from '@/data/product';
 import { getErrorMessage } from '@/utils/form-error';
 
 const ProductDeleteView = () => {
-  // const { mutate: deleteProduct, isLoading: loading } =
-  //   useDeleteProductMutation();
   const { mutate: deleteProduct, isLoading: loading } =
-    useDeleteProductMutation_v2();
+    useDeleteProductMutation();
   const { data } = useModalState();
   const { closeModal } = useModalAction();
 

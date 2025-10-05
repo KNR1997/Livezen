@@ -308,7 +308,7 @@ export default function CreateOrUpdateProductForm({
       ) : null}
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <div className="flex flex-wrap pb-8 my-5 border-b border-dashed border-border-base sm:my-8">
+          {/* <div className="flex flex-wrap pb-8 my-5 border-b border-dashed border-border-base sm:my-8">
             <Description
               title={t('form:featured-image-title')}
               details={featuredImageInformation}
@@ -317,15 +317,15 @@ export default function CreateOrUpdateProductForm({
 
             <Card className="w-full sm:w-8/12 md:w-2/3">
               <FileInput name="image" control={control} multiple={false} />
-              {/* {errors.image?.message && (
+              {errors.image?.message && (
                 <p className="my-2 text-xs text-red-500">
                   {t(errors?.image?.message!)}
                 </p>
-              )} */}
+              )}
             </Card>
-          </div>
+          </div> */}
 
-          <div className="flex flex-wrap pb-8 my-5 border-b border-dashed border-border-base sm:my-8">
+          {/* <div className="flex flex-wrap pb-8 my-5 border-b border-dashed border-border-base sm:my-8">
             <Description
               title={t('form:gallery-title')}
               details={galleryImageInformation}
@@ -335,7 +335,7 @@ export default function CreateOrUpdateProductForm({
             <Card className="w-full sm:w-8/12 md:w-2/3">
               <FileInput name="gallery" control={control} />
             </Card>
-          </div>
+          </div> */}
 
           {/* <div className="flex flex-wrap pb-8 my-5 border-b border-dashed border-border-base sm:my-8">
             <Description

@@ -254,7 +254,7 @@ export default function CreateOrUpdateCategoriesForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-wrap pb-8 my-5 border-b border-dashed border-border-base sm:my-8">
+      {/* <div className="flex flex-wrap pb-8 my-5 border-b border-dashed border-border-base sm:my-8">
         <Description
           title={t('form:input-label-image')}
           details={t('form:category-image-helper-text')}
@@ -264,7 +264,7 @@ export default function CreateOrUpdateCategoriesForm({
         <Card className="w-full sm:w-8/12 md:w-2/3">
           <FileInput name="image" control={control} multiple={false} />
         </Card>
-      </div>
+      </div> */}
 
       <div className="flex flex-wrap my-5 sm:my-8">
         <Description

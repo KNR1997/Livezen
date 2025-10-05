@@ -15,7 +15,6 @@ const ProfilePage = () => {
   const { me } : any = useUser();
   if (!me) return null;
 
-  console.log('me: ', me)
   return (
     <>
       <Seo noindex={true} nofollow={true} />

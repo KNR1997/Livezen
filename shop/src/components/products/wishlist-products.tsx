@@ -8,7 +8,7 @@ import NotFound from '@/components/ui/not-found';
 import Rating from '@/components/ui/rating-badge';
 import usePrice from '@/lib/use-price';
 import { useRemoveFromWishlist, useWishlist } from '@/framework/wishlist';
-import type { Product } from '@/types';
+import type { Product, Wishlist } from '@/types';
 import { Routes } from '@/config/routes';
 import dynamic from 'next/dynamic';
 const AddToCart = dynamic(
@@ -144,6 +144,8 @@ const WishlistProducts: React.FC = () => {
   const { wishlists, isLoading, isLoadingMore, error, hasMore, loadMore } =
     useWishlist();
 
+    console.log('wishlists: ', wishlists)
+
   if (error) return <ErrorMessage message={error.message} />;
 
   // loader
@@ -186,8 +188,8 @@ const WishlistProducts: React.FC = () => {
             {t('profile-sidebar-my-wishlist')}
           </h1>
         </div>
-        {wishlists?.map((item: any, index: number) => (
-          <WishlistItem key={index} product={item} />
+        {wishlists?.map((wishlist: Wishlist, index: number) => (
+          <WishlistItem key={index} product={wishlist?.product} />
         ))}
       </div>
 

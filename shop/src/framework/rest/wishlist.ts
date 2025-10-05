@@ -51,7 +51,7 @@ export function useRemoveFromWishlist() {
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
-        toast.error(`${t(error.response?.data.message)}`);
+        toast.error(`${t(error.response?.data.error)}`);
       }
     },
   });

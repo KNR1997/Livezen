@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from tortoise import fields, models
 
+from livezen.models import Pagination
 from livezen.auth.models import LivezenUser
 from livezen.product.models import Product, ProductRead, ProductReadSimple
 
@@ -41,3 +42,7 @@ class WishlistRead(WishlistBase):
 
 class ToggleWishlist(BaseModel):
     product_id: int
+
+
+class WishlistPagination(Pagination):
+    data: list[WishlistRead]

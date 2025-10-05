@@ -38,23 +38,23 @@ export const productValidationSchema = yup.object().shape({
     .positive('form:error-sale-price-must-positive')
     // .nullable()
     .required('form:error-sale-price-required'),
-  // quantity: yup.mixed().when('product_type', {
-  //   is: (productType: {
-  //     name: string;
-  //     value: string;
-  //     [key: string]: unknown;
-  //   }) => productType?.value === ProductType.Simple,
-  //   then: () =>
-  //     yup
-  //       .number()
-  //       .typeError('form:error-quantity-must-number')
-  //       .positive('form:error-quantity-must-positive')
-  //       .integer('form:error-quantity-must-integer')
-  //       .required('form:error-quantity-required'),
-  // }),
+  quantity: yup.mixed().when('product_type', {
+    is: (productType: {
+      name: string;
+      value: string;
+      [key: string]: unknown;
+    }) => productType?.value === ProductType.Simple,
+    then: () =>
+      yup
+        .number()
+        .typeError('form:error-quantity-must-number')
+        .positive('form:error-quantity-must-positive')
+        .integer('form:error-quantity-must-integer')
+        .required('form:error-quantity-required'),
+  }),
   // unit: yup.string().required('form:error-unit-required'),
   // type: yup.object().nullable().required('form:error-type-required'),
-  // status: yup.string().nullable().required('form:error-status-required'),
+  status: yup.string().nullable().required('form:error-status-required'),
   // variation_options: yup.array().of(
   //   yup.object().shape({
   //     price: yup

@@ -51,40 +51,40 @@ export const siteSettings = {
       href: Routes.changePassword,
       label: 'profile-sidebar-password',
     },
-    {
-      href: Routes.orders,
-      label: 'profile-sidebar-orders',
-    },
-    {
-      href: Routes.downloads,
-      label: 'profile-sidebar-downloads',
-    },
+    // {
+    //   href: Routes.orders,
+    //   label: 'profile-sidebar-orders',
+    // },
+    // {
+    //   href: Routes.downloads,
+    //   label: 'profile-sidebar-downloads',
+    // },
     {
       href: Routes.wishlists,
       label: 'profile-sidebar-my-wishlist',
     },
-    {
-      href: Routes.questions,
-      label: 'profile-sidebar-my-questions',
-    },
-    {
-      href: Routes.refunds,
-      label: 'text-my-refunds',
-    },
-    {
-      href: Routes.reports,
-      label: 'profile-sidebar-my-reports',
-    },
-    {
-      href: Routes.cards,
-      label: 'profile-sidebar-my-cards',
-      // MultiPayment: Make it dynamic or from mapper
-      cardsPayment: [PaymentGateway.STRIPE],
-    },
-    {
-      href: Routes.help,
-      label: 'profile-sidebar-help',
-    },
+    // {
+    //   href: Routes.questions,
+    //   label: 'profile-sidebar-my-questions',
+    // },
+    // {
+    //   href: Routes.refunds,
+    //   label: 'text-my-refunds',
+    // },
+    // {
+    //   href: Routes.reports,
+    //   label: 'profile-sidebar-my-reports',
+    // },
+    // {
+    //   href: Routes.cards,
+    //   label: 'profile-sidebar-my-cards',
+    //   // MultiPayment: Make it dynamic or from mapper
+    //   cardsPayment: [PaymentGateway.STRIPE],
+    // },
+    // {
+    //   href: Routes.help,
+    //   label: 'profile-sidebar-help',
+    // },
     {
       href: Routes.logout,
       label: 'profile-sidebar-logout',
