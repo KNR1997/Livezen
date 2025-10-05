@@ -182,9 +182,9 @@ const Header = ({ layout }: { layout?: string }) => {
           Map
         </button> */}
             <div className="flex shrink-0 items-center space-x-7 rtl:space-x-reverse 2xl:space-x-10">
-              <ul className="hidden shrink-0 items-center space-x-7 rtl:space-x-reverse xl:flex 2xl:space-x-10">
+              {/* <ul className="hidden shrink-0 items-center space-x-7 rtl:space-x-reverse xl:flex 2xl:space-x-10">
                 <StaticMenu />
-              </ul>
+              </ul> */}
               <div className="flex items-center space-x-4 rtl:space-x-reverse">
                 {(isHomePage && show) || (isHomePage && layout === 'modern') ? (
                   <Button
@@ -237,17 +237,17 @@ const Header = ({ layout }: { layout?: string }) => {
                 <div className="hidden lg:inline-flex">
                   {isAuthorize ? <AuthorizedMenu /> : <JoinButton />}
                 </div>
-                <div className="hidden h-9 shrink-0 items-center justify-center rounded border border-transparent bg-accent px-3 py-0 text-sm font-semibold leading-none text-light outline-none transition duration-300 ease-in-out hover:bg-accent-hover focus:shadow focus:outline-none focus:ring-1 focus:ring-accent-700 sm:inline-flex">
+                {/* <div className="hidden h-9 shrink-0 items-center justify-center rounded border border-transparent bg-accent px-3 py-0 text-sm font-semibold leading-none text-light outline-none transition duration-300 ease-in-out hover:bg-accent-hover focus:shadow focus:outline-none focus:ring-1 focus:ring-accent-700 sm:inline-flex">
                   <JoinButton />
-                </div>
-                <a
+                </div> */}
+                {/* <a
                   href={`${process.env.NEXT_PUBLIC_ADMIN_URL}/register`}
                   target="_blank"
                   rel="noreferrer"
                   className="hidden h-9 shrink-0 items-center justify-center rounded border border-transparent bg-accent px-3 py-0 text-sm font-semibold leading-none text-light outline-none transition duration-300 ease-in-out hover:bg-accent-hover focus:shadow focus:outline-none focus:ring-1 focus:ring-accent-700 sm:inline-flex"
                 >
                   {t('text-become-seller')}
-                </a>
+                </a> */}
               </div>
             </div>
           </div>
