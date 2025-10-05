@@ -1,85 +1,89 @@
+<p align="center">
+  <a href="https://github.com/KNR1997/Livezen">
+    <img alt="Vue FastAPI Admin Logo" width="200" src="https://uploads.teachablecdn.com/attachments/0dKhU49vRbiSSWknbHAR_1920X1357.jpg">
+  </a>
+</p>
+
+<h1 align="center">Livezen Assignment</h1>
+
 ### ⚡️ How to install
 
-## requirements
-python 3.11.0 or higher
-node v20.19.4 or higher
 
-1. Setup backend/server
-# navigate to server folder
-```sh
-cd\server
-```
+#### Backend
+The backend service requires the following environment:
 
-# create virtual environment
+- Python 3.11
+
+1. Create and activate virtual environment
 ```sh
+cd .\server\
 python -m venv .venv
-```
-
-# activate virtial environment
-```sh
 source .venv/bin/activate  # Linux/Mac
 # or
 .\.venv\Scripts\activate  # Windows
 ```
 
-# install requirements
+2. Install project dependencies:
 ```sh
 pip install -r requirements.txt
 ```
 
-# copy .env.template and rename to .env
+3. copy .env.template and rename to .env
 
-# start backend server
+4. Start the backend service:
 ```sh
 uvicorn livezen.main:app --reload --host 0.0.0.0 --port 8080
 ```
 The backend service is now running, and you can visit http://localhost:8080/docs to view the API documentation.
 
-# db setup
+
+#### db setup(optional)
 - for simpliciy we use the sqlite.
 - if you accidently delete the db.sqlite file follow these to generate a sqlite
 - or if you prefer connect to a mysql database, add db credentials in the .env and change config.py TORTOISE_ORM connections.
 
-# Initialize Aerich
+#### Initialize Aerich
 ```sh
 aerich init -t livezen.config.TORTOISE_ORM
 aerich init-db
 ```
 
-# Generate migration script
+#### Generate migration script
 ```sh
 aerich migrate
 ```
 
-# Apply migration
+#### Apply migration
 ```sh
 aerich upgrade
 ```
 
 
 
-2. Setup admin
-# install dependencies
+#### Admin
+1. install dependencies
 ```sh
+cd .\admin\
 yarn or npm install
 ```
-# copy .env.template and rename to .env
+2. copy .env.template and rename to .env
 
-# start admin
+3. start admin
 ```sh
 yarn dev
 ```
 The admin service is now running, and you can visit http://localhost:3002 to view the admin panel.
 
 
-2. Setup shop
-# install dependencies
+#### Shop
+1. install dependencies
 ```sh
+cd .\shop\
 yarn or npm install
 ```
-# copy .env.template and rename to .env
+2. copy .env.template and rename to .env
 
-# start shop
+3. start shop
 ```sh
 yarn dev:rest
 ```
@@ -98,7 +102,7 @@ The admin service is now running, and you can visit http://localhost:3003 to vie
     - Tailwind CSS – For rapid UI styling.
 
 ### Design Decisions
-# Backend Architecture – Domain-Driven Design (DDD)
+#### Backend Architecture – Domain-Driven Design (DDD)
 I structured the backend following Domain-Driven Design principles to promote modularity, scalability, and separation of concerns.
 
 - Each domain/module (e.g., product, auth, wishlist) contains its own:
@@ -112,7 +116,8 @@ I structured the backend following Domain-Driven Design principles to promote mo
     - Each module can be tested and maintained separately.
     - Easier scalability and refactoring in future.
 
-- structure
+- structure(example)
+```
     server/
     ├── livezen/
     │   ├── auth/                  # Shared configs, database setup, utils
@@ -125,12 +130,13 @@ I structured the backend following Domain-Driven Design principles to promote mo
     │   │   ├── service.py
     │   │   └── views.py
     │   └── main.py
+```
 
-# Repository Pattern
+#### Repository Pattern
 - The Repository Pattern is used between the Service and Database layers to decouple persistence logic from business rules.
 - This means the service layer interacts only with abstract data operations, not raw database queries — improving testability and maintainability.
 
-## Implementation Details
+### Implementation Details
 - Modules(server)
     - main.py – FastAPI entry point defining routes.
     - api.py - api endpoints setup
@@ -138,20 +144,20 @@ I structured the backend following Domain-Driven Design principles to promote mo
     - models.py - base models
     - config.py - project configuration(db, logging, JWT secret)
 
-## Additional Novel Feature
+### Additional Novel Feature
 - Wishlist System:
     - Users can click “Add to Wishlist” on any product.
     - Wishlist stored in backend table wishlist.
     - My Wishlist” page displays saved products.
     - This improves user engagement and personalization.
 
-## Concerns & Challenges Faced
+### Concerns & Challenges Faced
 - Limited time to build extra features(rate-limit).
 - Improvements (with more time):
     - Docker setup
     - Test deployment(mvp)
 
-## References
+### References
 - [FastAPI](https://fastapi.tiangolo.com/)
 - [Next.js](https://nextjs.org/docs)
 - [PickBazar](https://redq.io/pickbazar)
