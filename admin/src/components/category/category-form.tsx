@@ -143,7 +143,7 @@ const defaultValues = {
   details: '',
   parent: '',
   icon: '',
-  type: '',
+  // type: {},
 };
 
 type IProps = {

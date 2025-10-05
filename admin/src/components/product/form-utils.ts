@@ -107,7 +107,6 @@ export function getProductDefaultValues(
   isNewTranslation: boolean = false
 ) {
   if (!product) {
-    console.log('no product')
     return {
       product_type: productTypeOptions[0],
       min_price: 0.0,

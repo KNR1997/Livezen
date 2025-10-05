@@ -9,23 +9,23 @@
 ### Screenshots
 
 #### Login Page
-![Login Page](https://github.com/KNR1997/Livezen/admin/public/image/screenshots/login.jpg)
+![Login Page](https://github.com/KNR1997/Livezen/blob/master/admin/public/image/screenshots/login.png)
 
 #### Products Page
-![Products Page](https://github.com/KNR1997/Livezen/admin/public/image/screenshots/products.jpg)
+![Products Page](https://github.com/KNR1997/Livezen/blob/master/admin/public/image/screenshots/products.png)
 
 
 #### Product create Page
-![Product create Page](https://github.com/KNR1997/Livezen/admin/public/image/screenshots/product-create.jpg)
+![Product create Page](https://github.com/KNR1997/Livezen/blob/master/admin/public/image/screenshots/product-create.png)
 
 #### Shop Page
-![Shop Page](https://github.com/KNR1997/Livezen/admin/public/image/screenshots/shop.jpg)
+![Shop Page](https://github.com/KNR1997/Livezen/blob/master/admin/public/image/screenshots/shop.png)
 
 #### Product Popup
-![Product Popup](https://github.com/KNR1997/Livezen/admin/public/image/screenshots/product-popup.jpg)
+![Product Popup](https://github.com/KNR1997/Livezen/blob/master/admin/public/image/screenshots/product-popup.png)
 
 #### Related Products
-![Related Products](https://github.com/KNR1997/Livezen/admin/public/image/screenshots/related-products.jpg)
+![Related Products](https://github.com/KNR1997/Livezen/blob/master/admin/public/image/screenshots/related-products.png)
 
 
 ### ⚡️ How to install
