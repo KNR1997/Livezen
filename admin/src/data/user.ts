@@ -60,10 +60,6 @@ export function useLogin() {
   return useMutation(userClient.login);
 }
 
-export function useLogin_v2() {
-  return useMutation(userClient.login_v2);
-}
-
 export const useLogoutMutation = () => {
   const router = useRouter();
   const { t } = useTranslation();

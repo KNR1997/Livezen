@@ -19,7 +19,7 @@ export const API_ENDPOINTS = {
   TAGS: 'tags',
   TYPES: 'types',
   PROFILE_UPDATE: 'profile-update',
-  LOGOUT: 'logout',
+  LOGOUT: 'auth/logout',
   ME: 'auth/me',
   TOKEN: 'auth/token',
   TOKEN_v2: 'jwt/create/',

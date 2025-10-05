@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Any, List, Optional
 from pydantic import BaseModel, Field
 from tortoise import fields, models
 
@@ -21,6 +21,7 @@ class Product(models.Model):
     unit = fields.CharField(max_length=20)
     description = fields.TextField(null=True)
     image = fields.JSONField(null=True)
+    gallery = fields.JSONField(default=list, null=True)
     quantity = fields.IntField(null=True)
 
     # Product can belong to multiple categories
@@ -53,6 +54,7 @@ class ProductBase(BaseModel):
     description: Optional[str] = None
     type_id: int
     quantity: Optional[int] = None
+    image: Optional[Any] = None
 
     model_config = {
         "from_attributes": True

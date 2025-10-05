@@ -6,6 +6,28 @@
 
 <h1 align="center">Livezen Assignment</h1>
 
+### Screenshots
+
+#### Login Page
+![Login Page](https://github.com/KNR1997/Livezen/admin/public/image/screenshots/login.jpg)
+
+#### Products Page
+![Products Page](https://github.com/KNR1997/Livezen/admin/public/image/screenshots/products.jpg)
+
+
+#### Product create Page
+![Product create Page](https://github.com/KNR1997/Livezen/admin/public/image/screenshots/product-create.jpg)
+
+#### Shop Page
+![Shop Page](https://github.com/KNR1997/Livezen/admin/public/image/screenshots/shop.jpg)
+
+#### Product Popup
+![Product Popup](https://github.com/KNR1997/Livezen/admin/public/image/screenshots/product-popup.jpg)
+
+#### Related Products
+![Related Products](https://github.com/KNR1997/Livezen/admin/public/image/screenshots/related-products.jpg)
+
+
 ### ⚡️ How to install
 
 
