@@ -37,6 +37,7 @@ TORTOISE_ORM = {
                 "livezen.category.models",
                 "livezen.product.models",
                 "livezen.tag.models",
+                "livezen.wishlist.models",
                 "aerich.models"  # 👈 Aerich needs this
             ],
             "default_connection": "sqlite",

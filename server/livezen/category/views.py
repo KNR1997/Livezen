@@ -15,6 +15,7 @@ service = CategoryService(CategoryRepository())
 
 @router.get("", response_model=CategoryPagination)
 async def paginated_categorys(
+    parent: Optional[str] = None,
     page: int = Query(1, description="Page Number"),
     limit: int = Query(10, description="Items Per Page"),
     search: Optional[str] = Query("", description="Subject Name for Search"),
@@ -42,6 +43,14 @@ async def paginated_categorys(
                     q &= condition
             except ValueError:
                 continue  # skip invalid filter format
+
+    # 🧩 Handle parent filter independently
+    if parent == "null":
+        # Fetch only top-level categories
+        q &= Q(parent_id__isnull=True)
+    elif parent:
+        # Fetch subcategories of a specific parent
+        q &= Q(parent_id=parent)
 
     total, data = await service.paginated(page=page, page_size=limit, search=q)
     return CategoryPagination(

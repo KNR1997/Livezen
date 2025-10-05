@@ -58,14 +58,14 @@ class JWTOut(BaseModel):
 
 
 class UserRegister(UserLogin):
-    full_name: str
-    first_name: str
-    last_name: str
-    name_with_initials: str
-    username: str
+    full_name: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    name_with_initials: Optional[str] = None
+    username: Optional[str] = None
     email: EmailStr
     password: str
-    role: UserRole = UserRole.student
+    role: UserRole = UserRole.customer
 
 
 class UserPasswordUpdate(BaseModel):
@@ -151,7 +151,7 @@ class UserUpdate(BaseModel):
 
 class UserRead(BaseModel):
     id: UUID
-    full_name: str
+    full_name: str | None
     first_name: str | None
     last_name: str | None
     name_with_initials: str | None

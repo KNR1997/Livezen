@@ -23,7 +23,7 @@ user_service = UserService(UserRepository())
 auth_service = AuthService(UserRepository())
 
 
-@auth_router.post("/register", response_model=UserRead)
+@auth_router.post("/register", response_model=JWTOut)
 async def register_user(user_in: UserRegister):
     existing_user = await user_service.get_by_email(email=user_in.email)
     if existing_user:
@@ -35,7 +35,23 @@ async def register_user(user_in: UserRegister):
                 "type": "value_error",
             }],
         )
-    return await auth_service.register(user_in=user_in)
+    user = await auth_service.register(user_in=user_in)
+    role: UserRole = user.role
+    access_token_expires = timedelta(minutes=YMA_JWT_EXP)
+    expire = datetime.now(timezone.utc) + access_token_expires
+    return JWTOut(
+        token=create_access_token(
+            data=JWTPayload(
+                user_id=str(user.id),
+                email=user.email,
+                exp=expire,
+            )
+        ),
+        email=user.email,
+        username=user.username,
+        role=role,
+        permissions=[role]
+    )
 
 
 @auth_router.post("/token", summary="Get token", response_model=JWTOut)
@@ -66,7 +82,7 @@ async def login_access_token(credentials: UserLogin):
 
 @auth_router.post("/logout")
 async def logout():
-    return None
+    return {"message": "Successfully logged out"}
 
 
 @auth_router.get("/me", response_model=UserRead)
@@ -121,7 +137,7 @@ async def paginated_users(
         data=data,
         itemsPerPage=10,
         page=page,
-        page_size=page_size,
+        perPage=page_size,
         total=total,
     )
 

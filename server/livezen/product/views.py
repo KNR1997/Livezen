@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, Query
 from tortoise.expressions import Q
 
 from livezen.auth.permissions import AdminPermission, PermissionsDependency
+from livezen.auth.utils import CurrentUser
 from livezen.exceptions import ConflictException, ResourceNotFoundException
 
 from .models import ProductCreate, ProductPagination, ProductRead, ProductReadSimple, ProductUpdate

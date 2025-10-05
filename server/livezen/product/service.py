@@ -1,6 +1,7 @@
 from typing import List, Tuple
 from tortoise.expressions import Q
 
+from livezen.auth.utils import CurrentUser
 from livezen.category.models import Category
 from livezen.tag.models import Tag
 

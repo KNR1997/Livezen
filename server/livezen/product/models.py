@@ -1,7 +1,6 @@
 from typing import List, Optional
 from pydantic import BaseModel, Field
 from tortoise import fields, models
-from tortoise.contrib.pydantic import pydantic_model_creator
 
 from livezen.category.models import Category, CategoryReadSimple
 from livezen.enums import ProductStatus, ProductType
@@ -40,23 +39,6 @@ class Product(models.Model):
     class Meta:
         table = "product"
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "slug": self.slug,
-            "status": self.status,
-            "product_type": self.product_type,
-            "price": self.price,
-            "sale_price": self.sale_price,
-            "sku": self.sku,
-            "unit": self.unit,
-            "description": self.description,
-            "quantity": self.quantity,
-            "type": self.type.to_dict(),
-            # "type_id": self.type.id,
-        }
-
 
 # Pydantic models
 class ProductBase(BaseModel):
@@ -89,6 +71,8 @@ class ProductUpdate(ProductBase):
 
 class ProductReadSimple(ProductBase):
     id: int
+    name: str
+    slug: str
 
 
 class ProductRead(ProductBase):
@@ -100,12 +84,3 @@ class ProductRead(ProductBase):
 
 class ProductPagination(Pagination):
     data: list[ProductRead]
-
-
-# Main Product serializer
-Product_Pydantic = pydantic_model_creator(
-    Product,
-    name="Product",
-    include=("id", "name", "slug", "price", "sale_price", "product_type", "type",
-             "status", "categories")
-)

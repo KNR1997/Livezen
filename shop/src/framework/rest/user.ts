@@ -379,9 +379,9 @@ export function useLogout() {
     onSuccess: (data) => {
       if (data) {
         removeToken();
-        // Cookies.remove(AUTH_CRED);
-        // Cookies.remove(REVIEW_POPUP_MODAL_KEY);
-        // Cookies.remove(NEWSLETTER_POPUP_MODAL_KEY);
+        Cookies.remove(AUTH_CRED);
+        Cookies.remove(REVIEW_POPUP_MODAL_KEY);
+        Cookies.remove(NEWSLETTER_POPUP_MODAL_KEY);
         setAuthorized(false);
         //@ts-ignore
         resetCheckout();

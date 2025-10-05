@@ -13,8 +13,22 @@ class CategoryService:
     async def paginated(
         self, page: int, page_size: int, search: Q = Q(), order: list = []
     ) -> Tuple[int, List[Category]]:
-        return await self.repository.paginated(page, page_size, search, order, prefetch=['type', 'parent'])
+        total, categories = await self.repository.paginated(
+            page, page_size, search, order, prefetch=['type', 'parent', 'children']
+        )
 
+        # Embed children categories for top-level categories
+        result = []
+        for category in categories:
+            if category.parent_id is None:
+                children = await category.children.all().prefetch_related('type', 'parent')
+                category.children_list = list(children)
+                result.append(category)
+            else:
+                result.append(category)
+
+        return total, result
+    
     async def get(self, category_id: int) -> Category | None:
         """Gets a category by id."""
         return await self.repository.get(id=category_id)
@@ -25,7 +39,7 @@ class CategoryService:
 
     async def get_by_slug(self, slug: str) -> Category | None:
         """Gets a category by slug."""
-        return await self.repository.get(slug=slug, prefetch=['type', 'parent'])
+        return await self.repository.get(slug=slug, prefetch=['type', 'parent', 'children'])
 
     async def create(self, category_in: CategoryCreate) -> Category:
         slug = slugify(category_in.name)

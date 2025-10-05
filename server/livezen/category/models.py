@@ -61,6 +61,7 @@ class CategoryRead(CategoryBase):
     type: TypeRead
     parent: Optional[CategoryReadSimple] = None
     translated_languages: list[str]
+    children: Optional[list[CategoryReadSimple]] = []
 
 
 class CategoryPagination(Pagination):

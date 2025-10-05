@@ -65,8 +65,6 @@ const Details: React.FC<Props> = ({
     product_type,
   } = product ?? {};
 
-  console.log('Product variations: ', product?.variations)
-
   const { t } = useTranslation('common');
   const [_, setShowStickyShortDetails] = useAtom(stickyShortDetailsAtom);
 

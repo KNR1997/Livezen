@@ -11,6 +11,7 @@ from livezen.type.views import router as type_router
 from livezen.category.views import router as category_router
 from livezen.tag.views import router as tag_router
 from livezen.product.views import router as product_router
+from livezen.wishlist.views import router as whishlist_router
 from livezen.settings.views import router as settings_router
 
 
@@ -50,7 +51,7 @@ api_router.include_router(product_router, prefix="/products", tags=["Product"])
 # Private (authenticated) routes
 authenticated_api_router = APIRouter(dependencies=[Depends(get_current_user)])
 authenticated_api_router.include_router(user_router, prefix="/users", tags=["Users"])
-# authenticated_api_router.include_router(product_router, prefix="/products", tags=["Product"])
+authenticated_api_router.include_router(whishlist_router, prefix="/wishlists", tags=["Wishlist"])
 
 
 # Mount the private router into the main one
