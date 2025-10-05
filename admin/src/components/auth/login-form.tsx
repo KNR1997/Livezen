@@ -29,14 +29,13 @@ const loginFormSchema = yup.object().shape({
 
 const defaultValues = {
   email: 'admin@demo.com',
-  password: 'demodemo2',
+  password: 'demodemo',
 };
 
 const LoginForm = () => {
   const { t } = useTranslation();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { mutate: login, isLoading, error } = useLogin();
-  const { mutate: login_v2 } = useLogin_v2();
 
   function onSubmit({ email, password }: LoginInput) {
     login(

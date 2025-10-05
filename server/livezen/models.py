@@ -11,5 +11,5 @@ class Pagination(BaseModel):
     """Pydantic model for paginated results."""
     itemsPerPage: int
     page: int
-    page_size: int
+    perPage: int
     total: int

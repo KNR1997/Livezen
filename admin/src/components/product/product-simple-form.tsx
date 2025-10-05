@@ -58,7 +58,7 @@ export default function ProductSimpleForm({ initialValues }: IProps) {
           className="mb-5"
         />
 
-        {/* <Input
+        <Input
           label={`${t('form:input-label-quantity')}*`}
           type="number"
           {...register('quantity')}
@@ -67,7 +67,7 @@ export default function ProductSimpleForm({ initialValues }: IProps) {
           className="mb-5"
           // Need discussion
           disabled={isTranslateProduct}
-        /> */}
+        />
 
         <Input
           label={`${t('form:input-label-sku')}*`}
@@ -83,20 +83,20 @@ export default function ProductSimpleForm({ initialValues }: IProps) {
           disabled={isTranslateProduct}
         />
 
-        <Input
+        {/* <Input
           label={t('form:input-label-width')}
           {...register('width')}
           error={t(errors.width?.message!)}
           variant="outline"
           className="mb-5"
-        />
-        <Input
+        /> */}
+        {/* <Input
           label={t('form:input-label-height')}
           {...register('height')}
           error={t(errors.height?.message!)}
           variant="outline"
           className="mb-5"
-        />
+        /> */}
         {/* <Input
           label={t('form:input-label-length')}
           {...register('length')}
@@ -104,21 +104,21 @@ export default function ProductSimpleForm({ initialValues }: IProps) {
           variant="outline"
           className="mb-5"
         /> */}
-        <Checkbox
+        {/* <Checkbox
           {...register('is_digital')}
           id="is_digital"
           label={t('form:input-label-is-digital')}
           disabled={Boolean(is_external)}
           className="mb-5"
-        />
+        /> */}
 
-        <Checkbox
+        {/* <Checkbox
           {...register('is_external')}
           id="is_external"
           label={t('form:input-label-is-external')}
           disabled={Boolean(is_digital)}
           className="mb-5"
-        />
+        /> */}
 
         {is_digital ? (
           <>

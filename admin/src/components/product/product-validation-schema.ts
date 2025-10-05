@@ -7,6 +7,7 @@ import { MAXIMUM_WORD_COUNT_FOR_RICH_TEXT_EDITOR } from '@/utils/constants';
 const SUPPORTED_IMAGE_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
 export const productValidationSchema = yup.object().shape({
+  type: yup.object().required('form:error-type-required'),
   name: yup.string().required('form:error-name-required'),
   product_type: yup.object().required('form:error-product-type-required'),
   sku: yup.mixed().when('product_type', {
@@ -35,8 +36,8 @@ export const productValidationSchema = yup.object().shape({
     .transform((value) => (isNaN(value) ? undefined : value))
     .lessThan(yup.ref('price'), 'Sale Price should be less than ${less}')
     .positive('form:error-sale-price-must-positive')
-    .nullable(),
-    // .required('form:error-price-required'),
+    // .nullable()
+    .required('form:error-sale-price-required'),
   // quantity: yup.mixed().when('product_type', {
   //   is: (productType: {
   //     name: string;

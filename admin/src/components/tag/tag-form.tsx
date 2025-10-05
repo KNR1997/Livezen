@@ -174,24 +174,38 @@ export default function CreateOrUpdateTagForm({ initialValues }: IProps) {
       type_id: values.type?.id,
     };
 
-    try {
-      if (
-        !initialValues ||
-        !initialValues.translated_languages.includes(router.locale)
-      ) {
-        createTag({
-          ...input,
-          ...(initialValues?.slug && { slug: initialValues.slug }),
-        });
-      } else {
-        updateTag({
-          ...input,
-          id: initialValues.id!,
-        });
-      }
-    } catch (err) {
-      getErrorMessage(err);
+    console.log('type --------------');
+
+    if (!initialValues) {
+      createTag({
+        ...input,
+        ...(initialValues?.slug && { slug: initialValues.slug }),
+      });
+    } else {
+      updateTag({
+        ...input,
+        id: initialValues.id!,
+      });
     }
+
+    // try {
+    //   if (
+    //     !initialValues ||
+    //     !initialValues.translated_languages.includes(router.locale!)
+    //   ) {
+    //     createTag({
+    //       ...input,
+    //       ...(initialValues?.slug && { slug: initialValues.slug }),
+    //     });
+    //   } else {
+    //     updateTag({
+    //       ...input,
+    //       id: initialValues.id!,
+    //     });
+    //   }
+    // } catch (err) {
+    //   getErrorMessage(err);
+    // }
   };
 
   return (

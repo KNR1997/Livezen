@@ -6,3 +6,12 @@ class UserRole(StrEnum):
     admin = "admin"
     teacher = "teacher"
     student = "student"
+
+
+class ProductStatus(StrEnum):
+    publish = "publish"
+    draft = "draft"
+
+
+class ProductType(StrEnum):
+    simple = "simple"

@@ -5,7 +5,7 @@ from tortoise.expressions import Q
 from livezen.auth.permissions import AdminPermission, PermissionsDependency
 from livezen.exceptions import ConflictException, ResourceNotFoundException
 
-from .models import ProductCreate, ProductPagination, ProductRead, ProductUpdate
+from .models import ProductCreate, ProductPagination, ProductRead, ProductReadSimple, ProductUpdate
 from .repository import ProductRepository
 from .service import ProductService
 
@@ -43,21 +43,21 @@ async def paginated_products(
         data=data,
         itemsPerPage=10,
         page=page,
-        page_size=page_size,
+        perPage=page_size,
         total=total,
     )
 
 
-@router.get("/{product_id}", response_model=ProductRead)
-async def get_product(product_id: int):
+@router.get("/{slug}", response_model=ProductRead)
+async def get_product(slug: str):
     """Get a product by its id."""
-    product = await service.get(product_id)
+    product = await service.get_by_slug(slug)
     return product
 
 
 @router.post(
     "",
-    response_model=ProductRead,
+    response_model=ProductReadSimple,
     # dependencies=[Depends(PermissionsDependency([AdminPermission]))]
 )
 async def create_product(product_in: ProductCreate):
@@ -68,7 +68,7 @@ async def create_product(product_in: ProductCreate):
     return await service.create(product_in)
 
 
-@router.put("/{product_id}", response_model=ProductRead)
+@router.put("/{product_id}", response_model=ProductReadSimple)
 async def update_product(
     product_id: int,
     product_in: ProductUpdate

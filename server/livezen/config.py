@@ -32,8 +32,11 @@ TORTOISE_ORM = {
         "models": {
             # include all your domain model modules
             "models": [
-                # "auth.models",
+                "livezen.auth.models",
+                "livezen.type.models",
+                "livezen.category.models",
                 "livezen.product.models",
+                "livezen.tag.models",
                 "aerich.models"  # 👈 Aerich needs this
             ],
             "default_connection": "sqlite",

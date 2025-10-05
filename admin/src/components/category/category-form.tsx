@@ -28,7 +28,6 @@ import { categoryValidationSchema } from './category-validation-schema';
 import {
   useCategoriesQuery,
   useCreateCategoryMutation,
-  useCreateCategoryMutation_v2,
   useUpdateCategoryMutation,
 } from '@/data/category';
 import { useTypesQuery } from '@/data/type';
@@ -196,8 +195,6 @@ export default function CreateOrUpdateCategoriesForm({
     resolver: yupResolver(categoryValidationSchema),
   });
 
-  console.log('open category edit form - mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm')
-
   const { openModal } = useModalAction();
   const slugAutoSuggest = formatSlug(watch('name'));
   const { locale } = router;
@@ -225,8 +222,6 @@ export default function CreateOrUpdateCategoriesForm({
 
   const { mutate: createCategory, isLoading: creating } =
     useCreateCategoryMutation();
-  // const { mutate: createCategory_v2, isLoading: creating } =
-  //   useCreateCategoryMutation_v2();
   const { mutate: updateCategory, isLoading: updating } =
     useUpdateCategoryMutation();
 
@@ -246,7 +241,6 @@ export default function CreateOrUpdateCategoriesForm({
       type_id: values.type?.id,
     };
 
-    console.log("input: ", input)
     if (
       !initialValues ||
       !initialValues.translated_languages.includes(router.locale!)
@@ -255,10 +249,7 @@ export default function CreateOrUpdateCategoriesForm({
         ...input,
         ...(initialValues?.slug && { slug: initialValues.slug }),
       });
-      // createCategory_v2({
-      //   ...input,
-      //   ...(initialValues?.slug && { slug: initialValues.slug }),
-      // });
+
     } else {
       updateCategory({
         ...input,

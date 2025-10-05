@@ -39,9 +39,7 @@ import {
 import { getErrorMessage } from '@/utils/form-error';
 import {
   useCreateProductMutation,
-  useCreateProductMutation_v2,
   useUpdateProductMutation,
-  useUpdateProductMutation_v2,
 } from '@/data/product';
 import { isEmpty } from 'lodash';
 import { adminOnly, getAuthCredentials, hasAccess } from '@/utils/auth-utils';
@@ -138,48 +136,26 @@ export default function CreateOrUpdateProductForm({
 
   const { mutate: createProduct, isLoading: creating } =
     useCreateProductMutation();
-  const { mutate: createProduct_v2} =
-    useCreateProductMutation_v2();
   const { mutate: updateProduct, isLoading: updating } =
     useUpdateProductMutation();
-  const { mutate: updateProduct_v2} = useUpdateProductMutation_v2();
-
 
   const onSubmit = async (values: ProductFormValues) => {
     const inputValues = {
       language: router.locale,
       ...getProductInputValues(values, initialValues),
-      created_by: user_id,
       slug: slugAutoSuggest, // To do -> Autosuggest slug gets undefined
     };
-
-    console.log('inputValues: ', inputValues)
     
     try {
-      if (
-        !initialValues ||
-        !initialValues.translated_languages.includes(router.locale!)
-      ) {
-
+      if (!initialValues) {
         //@ts-ignore
-        // createProduct({
-        //   ...inputValues,
-        //   ...(initialValues?.slug && { slug: initialValues.slug }),
-        //   shop_id: shopId || initialValues?.shop_id,
-        // });
-        // createProduct_v2({
-        //   ...inputValues,
-        //   ...(initialValues?.slug && { slug: initialValues.slug }),
-        //   shop_id: shopId || initialValues?.shop_id,
-        // });
+        createProduct({
+          ...inputValues,
+        });
       } else {
+        console.log('here hereeeeeeeeeeeeeeee')
         //@ts-ignore
-        // updateProduct({
-        //   ...inputValues,
-        //   id: initialValues.id!,
-        //   shop_id: initialValues.shop_id!,
-        // });
-        updateProduct_v2({
+        updateProduct({
           ...inputValues,
           id: initialValues.id!,
           shop_id: initialValues.shop_id!,
@@ -362,7 +338,7 @@ export default function CreateOrUpdateProductForm({
             </Card>
           </div>
 
-          <div className="flex flex-wrap pb-8 my-5 border-b border-dashed border-border-base sm:my-8">
+          {/* <div className="flex flex-wrap pb-8 my-5 border-b border-dashed border-border-base sm:my-8">
             <Description
               title={t('form:video-title')}
               details={t('form:video-help-text')}
@@ -370,14 +346,12 @@ export default function CreateOrUpdateProductForm({
             />
 
             <Card className="w-full sm:w-8/12 md:w-2/3">
-              {/* Video url picker */}
               <div>
                 {fields?.map((item: any, index: number) => (
                   <div
                     className="py-5 border-b border-dashed border-border-200 first:pt-0 last:border-b-0 md:py-8 md:first:pt-0"
                     key={index}
                   >
-                    {' '}
                     <div className="flex gap-1 mb-3 text-sm font-semibold leading-none text-body-dark">
                       {`${t('form:input-label-video-embed')} ${index + 1}`}
                       <TooltipLabel toolTipText={'form:text-video-tooltip'} />
@@ -415,7 +389,7 @@ export default function CreateOrUpdateProductForm({
                 {t('form:button-label-add-video')}
               </Button>
             </Card>
-          </div>
+          </div> */}
 
           <div className="flex flex-wrap pb-8 my-5 border-b border-dashed border-border-base sm:my-8">
             <Description
@@ -430,8 +404,8 @@ export default function CreateOrUpdateProductForm({
                 error={t((errors?.type as any)?.message)}
               />
               <ProductCategoryInput control={control} setValue={setValue} />
-              <ProductAuthorInput control={control} />
-              <ProductManufacturerInput control={control} setValue={setValue} />
+              {/* <ProductAuthorInput control={control} /> */}
+              {/* <ProductManufacturerInput control={control} setValue={setValue} /> */}
               <ProductTagInput control={control} setValue={setValue} />
             </Card>
           </div>

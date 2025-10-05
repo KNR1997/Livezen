@@ -45,36 +45,6 @@ export const useCreateProductMutation = () => {
   });
 };
 
-export const useCreateProductMutation_v2 = () => {
-  const queryClient = useQueryClient();
-  const router = useRouter();
-  const { t } = useTranslation();
-  return useMutation(productClient_v2.create, {
-    onSuccess: async () => {
-      const generateRedirectUrl = router.query.shop
-        ? `/${router.query.shop}${Routes.product.list}`
-        : Routes.product.list;
-      await Router.push(generateRedirectUrl, undefined, {
-        locale: Config.defaultLanguage,
-      });
-      toast.success(t('common:successfully-created'));
-    },
-    // Always refetch after error or success:
-    onSettled: () => {
-      queryClient.invalidateQueries(API_ENDPOINTS.PRODUCTS_v2);
-    },
-    onError: (error: any) => {
-      const { data, status } = error?.response;
-      if (status === 422) {
-        const errorMessage: any = Object.values(data).flat();
-        toast.error(errorMessage[0]);
-      } else {
-        toast.error(t(`common:${error?.response?.data.message}`));
-      }
-    },
-  });
-};
-
 export const useUpdateProductMutation = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -103,36 +73,6 @@ export const useUpdateProductMutation = () => {
   });
 };
 
-export const useUpdateProductMutation_v2 = () => {
-  const { t } = useTranslation();
-  const queryClient = useQueryClient();
-  const router = useRouter();
-  return useMutation(productClient_v2.update, {
-    onSuccess: async (data) => {
-      const generateRedirectUrl = router.query.shop
-        ? `/${router.query.shop}${Routes.product.list}`
-        : Routes.product.list;
-        console.log('on success data: \\\\\\\\\\\\\\\\', data)
-      console.log('generateRedirectUrl:////////////////// ', generateRedirectUrl)
-      await router.push(
-        `${generateRedirectUrl}/${data?.slug}/edit`,
-        undefined,
-        {
-          locale: Config.defaultLanguage,
-        },
-      );
-      toast.success(t('common:successfully-updated'));
-    },
-    // Always refetch after error or success:
-    onSettled: () => {
-      queryClient.invalidateQueries(API_ENDPOINTS.PRODUCTS_v2);
-    },
-    onError: (error: any) => {
-      toast.error(t(`common:${error?.response?.data.message}`));
-    },
-  });
-};
-
 export const useDeleteProductMutation = () => {
   const queryClient = useQueryClient();
   const { t } = useTranslation();
@@ -150,23 +90,6 @@ export const useDeleteProductMutation = () => {
   });
 };
 
-export const useDeleteProductMutation_v2 = () => {
-  const queryClient = useQueryClient();
-  const { t } = useTranslation();
-  return useMutation(productClient_v2.delete, {
-    onSuccess: () => {
-      toast.success(t('common:successfully-deleted'));
-    },
-    // Always refetch after error or success:
-    onSettled: () => {
-      queryClient.invalidateQueries(API_ENDPOINTS.PRODUCTS_v2);
-    },
-    onError: (error: any) => {
-      toast.error(t(`common:${error?.response?.data.message}`));
-    },
-  });
-};
-
 export const useProductQuery = ({ slug, language }: GetParams) => {
   const { data, error, isLoading } = useQuery<Product, Error>(
     [API_ENDPOINTS.PRODUCTS, { slug, language }],
@@ -175,19 +98,6 @@ export const useProductQuery = ({ slug, language }: GetParams) => {
 
   return {
     product: data,
-    error,
-    isLoading,
-  };
-};
-
-export const useProductQuery_v2 = ({ slug, language }: GetParams) => {
-  const { data, error, isLoading } = useQuery<Product, Error>(
-    [API_ENDPOINTS.PRODUCTS_v2, { slug, language }],
-    () => productClient_v2.get({ slug, language }),
-  );
-
-  return {
-    product_v2: data,
     error,
     isLoading,
   };
@@ -209,28 +119,6 @@ export const useProductsQuery = (
 
   return {
     products: data?.data ?? [],
-    paginatorInfo: mapPaginatorData(data),
-    error,
-    loading: isLoading,
-  };
-};
-
-export const useProductsQuery_v2 = (
-  params: Partial<ProductQueryOptions>,
-  options: any = {},
-) => {
-  const { data, error, isLoading } = useQuery<ProductPaginator, Error>(
-    [API_ENDPOINTS.PRODUCTS_v2, params],
-    ({ queryKey, pageParam }) =>
-      productClient.paginated_v2(Object.assign({}, queryKey[1], pageParam)),
-    {
-      keepPreviousData: true,
-      ...options,
-    },
-  );
-
-  return {
-    products_v2: data?.data ?? [],
     paginatorInfo: mapPaginatorData(data),
     error,
     loading: isLoading,

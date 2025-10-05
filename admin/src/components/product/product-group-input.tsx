@@ -3,7 +3,7 @@ import Label from '@/components/ui/label';
 import ValidationError from '@/components/ui/form-validation-error';
 import { Control } from 'react-hook-form';
 import { useTranslation } from 'next-i18next';
-import { useTypesQuery, useTypesQuery_v2 } from '@/data/type';
+import { useTypesQuery } from '@/data/type';
 import { useRouter } from 'next/router';
 
 interface Props {
@@ -18,10 +18,6 @@ const ProductGroupInput = ({ control, error }: Props) => {
     limit: 200,
     language: locale,
   });
-  // const { types_v2 } = useTypesQuery_v2({
-  //   limit: 200,
-  //   language: locale,
-  // });
 
   return (
     <div className="mb-5">

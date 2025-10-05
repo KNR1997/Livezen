@@ -259,10 +259,10 @@ export function getProductInputValues(
     // language: router.locale,
     author_id: author?.id,
     manufacturer_id: manufacturer?.id,
-    type: type?.id,
+    type_id: type?.id,
     product_type: product_type?.value,
-    categories: categories.map((category) => category?.id),
-    tags: tags.map((tag) => tag?.id),
+    categories: categories?.map((category) => category?.id),
+    tags: tags?.map((tag) => tag?.id),
     image: omitTypename<any>(image),
     gallery: values.gallery?.map((gi: any) => omitTypename(gi)),
 

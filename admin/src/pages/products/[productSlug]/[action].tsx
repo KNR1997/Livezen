@@ -2,12 +2,11 @@ import Layout from '@/components/layouts/admin';
 import CreateOrUpdateProductForm from '@/components/product/product-form';
 import ErrorMessage from '@/components/ui/error-message';
 import Loader from '@/components/ui/loader/loader';
-import { useProductQuery, useProductQuery_v2 } from '@/data/product';
+import { useProductQuery } from '@/data/product';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import { Config } from '@/config';
-import Link from '@/components/ui/link';
 
 export default function UpdateProductPage() {
   const { query, locale } = useRouter();
@@ -22,18 +21,6 @@ export default function UpdateProductPage() {
     language:
       query.action!.toString() === 'edit' ? locale! : Config.defaultLanguage,
   });
-
-  console.log('product: ', product)
-
-  // const {
-  //   product_v2,
-  //   isLoading: loading,
-  //   error,
-  // } = useProductQuery_v2({
-  //   slug: query.productSlug as string,
-  //   language:
-  //     query.action!.toString() === 'edit' ? locale! : Config.defaultLanguage,
-  // });
 
   if (loading) return <Loader text={t('common:text-loading')} />;
   if (error) return <ErrorMessage message={error?.message as string} />;

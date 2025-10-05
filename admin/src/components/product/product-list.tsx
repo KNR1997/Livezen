@@ -68,8 +68,6 @@ const ProductList = ({
     },
   });
 
-  console.log('Products on ProductList: ', products)
-
   let columns = [
     {
       title: t('table:table-item-id'),
@@ -116,18 +114,18 @@ const ProductList = ({
         </div>
       ),
     },
-    {
-      title: t('table:table-item-product-type'),
-      dataIndex: 'product_type',
-      key: 'product_type',
-      width: 150,
-      align: alignLeft,
-      render: (product_type: string) => (
-        <span className="truncate whitespace-nowrap capitalize">
-          {product_type}
-        </span>
-      ),
-    },
+    // {
+    //   title: t('table:table-item-product-type'),
+    //   dataIndex: 'product_type',
+    //   key: 'product_type',
+    //   width: 150,
+    //   align: alignLeft,
+    //   render: (product_type: string) => (
+    //     <span className="truncate whitespace-nowrap capitalize">
+    //       {product_type}
+    //     </span>
+    //   ),
+    // },
     // {
     //   title: t('table:table-item-shop'),
     //   dataIndex: 'shop',

@@ -38,7 +38,7 @@ async def register_user(user_in: UserRegister):
     return await auth_service.register(user_in=user_in)
 
 
-@auth_router.post("/login", summary="Get token", response_model=JWTOut)
+@auth_router.post("/token", summary="Get token", response_model=JWTOut)
 async def login_access_token(credentials: UserLogin):
     user = await auth_service.authenticate(credentials)
     if not user:

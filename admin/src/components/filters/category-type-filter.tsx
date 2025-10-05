@@ -55,15 +55,15 @@ export default function CategoryTypeFilter({
     type,
   });
 
-  const { authors, loading: authorLoading } = useAuthorsQuery({
-    limit: 999,
-    language: locale,
-  });
+  // const { authors, loading: authorLoading } = useAuthorsQuery({
+  //   limit: 999,
+  //   language: locale,
+  // });
 
-  const { manufacturers, loading: manufactureLoading } = useManufacturersQuery({
-    limit: 999,
-    language: locale,
-  });
+  // const { manufacturers, loading: manufactureLoading } = useManufacturersQuery({
+  //   limit: 999,
+  //   language: locale,
+  // });
 
   const productType = [
     { name: 'Simple product', slug: ProductType.Simple },
@@ -111,7 +111,7 @@ export default function CategoryTypeFilter({
         ''
       )}
 
-      {enableAuthor ? (
+      {/* {enableAuthor ? (
         <div className="w-full">
           <Label>{t('common:filter-by-author')}</Label>
           <Select
@@ -126,9 +126,9 @@ export default function CategoryTypeFilter({
         </div>
       ) : (
         ''
-      )}
+      )} */}
 
-      {enableProductType ? (
+      {/* {enableProductType ? (
         <div className="w-full">
           <Label>Filter by Product Type</Label>
           <Select
@@ -143,9 +143,9 @@ export default function CategoryTypeFilter({
         </div>
       ) : (
         ''
-      )}
+      )} */}
 
-      {enableManufacturer ? (
+      {/* {enableManufacturer ? (
         <div className="w-full">
           <Label>Filter by manufacturer/publications </Label>
           <Select
@@ -160,7 +160,7 @@ export default function CategoryTypeFilter({
         </div>
       ) : (
         ''
-      )}
+      )} */}
     </div>
   );
 }

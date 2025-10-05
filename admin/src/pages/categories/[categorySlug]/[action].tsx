@@ -5,7 +5,7 @@ import ErrorMessage from '@/components/ui/error-message';
 import Loader from '@/components/ui/loader/loader';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useCategoryQuery, useCategoryQuery_v2 } from '@/data/category';
+import { useCategoryQuery } from '@/data/category';
 import { Config } from '@/config';
 
 export default function UpdateCategoriesPage() {
@@ -13,19 +13,9 @@ export default function UpdateCategoriesPage() {
   const { t } = useTranslation();
   const {
     category,
-  } = useCategoryQuery({
-    slug: query.categorySlug as string,
-    language:
-      query.action!.toString() === 'edit' ? locale! : Config.defaultLanguage,
-  });
-
-  console.log('slug: ', query.categorySlug)
-
-  const {
-    category_v2,
     isLoading: loading,
     error,
-  } = useCategoryQuery_v2({
+  } = useCategoryQuery({
     slug: query.categorySlug as string,
     language:
       query.action!.toString() === 'edit' ? locale! : Config.defaultLanguage,
@@ -33,9 +23,6 @@ export default function UpdateCategoriesPage() {
 
   if (loading) return <Loader text={t('common:text-loading')} />;
   if (error) return <ErrorMessage message={error.message} />;
-
-  console.log('category :', category)
-  console.log('category_v2 :', category_v2)
 
   return (
     <>
@@ -45,7 +32,7 @@ export default function UpdateCategoriesPage() {
         </h1>
       </div>
 
-      <CreateOrUpdateCategoriesForm initialValues={category_v2} />
+      <CreateOrUpdateCategoriesForm initialValues={category} />
     </>
   );
 }

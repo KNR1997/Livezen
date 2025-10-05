@@ -1,6 +1,9 @@
 from typing import List, Tuple
 from tortoise.expressions import Q
 
+from livezen.category.models import Category
+from livezen.tag.models import Tag
+
 from .models import Product, ProductCreate, ProductUpdate
 from .repository import ProductRepository
 
@@ -12,7 +15,7 @@ class ProductService:
     async def paginated(
         self, page: int, page_size: int, search: Q = Q(), order: list = []
     ) -> Tuple[int, List[Product]]:
-        return await self.repository.paginated(page, page_size, search, order)
+        return await self.repository.paginated(page, page_size, search, order, prefetch=['type', 'categories'])
 
     async def list_products(self) -> list[Product]:
         return await self.repository.list()
@@ -25,8 +28,25 @@ class ProductService:
         """Gets a product by name."""
         return await self.repository.get(name=name)
 
+    async def get_by_slug(self, slug: str) -> Product | None:
+        """Gets a product by slug."""
+        return await self.repository.get(slug=slug, prefetch=['type', 'categories'])
+
     async def create(self, product_in: ProductCreate) -> Product:
-        return await self.repository.create(**product_in.model_dump())
+        # Create product
+        product = await self.repository.create(**product_in.model_dump(exclude={"categories"}))
+
+        # Attach categories if provided
+        if product_in.categories:
+            categories = await Category.filter(id__in=product_in.categories)
+            await product.categories.add(*categories)
+
+        # Attach tags if provided
+        if product_in.tags:
+            tags = await Tag.filter(id__in=product_in.tags)
+            await product.tags.add(*tags)
+
+        return product
 
     async def update(self, product: Product, product_in: ProductUpdate) -> Product:
         """Updates a product."""
