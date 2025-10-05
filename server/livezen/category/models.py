@@ -13,9 +13,16 @@ class Category(models.Model):
     details = fields.TextField(null=True)
     icon = fields.CharField(max_length=20)
     image = fields.JSONField(null=True)
-    translated_languages = fields.JSONField(default=["en"])
+    translated_languages = fields.JSONField(default=list)
     type: fields.ForeignKeyRelation[Type] = fields.ForeignKeyField(
         "models.Type", related_name="types"
+    )
+    # ✅ Self-referential foreign key (a Category can have a parent Category)
+    parent: fields.ForeignKeyNullableRelation["Category"] = fields.ForeignKeyField(
+        "models.Category",  # reference to the same model
+        related_name="children",  # access children via .children
+        null=True,
+        on_delete=fields.CASCADE
     )
 
     class Meta:
@@ -28,6 +35,7 @@ class CategoryBase(BaseModel):
     details: Optional[str] = None
     icon: str
     type_id: int
+    parent_id: Optional[int] = None
 
     model_config = {
         "from_attributes": True
@@ -42,16 +50,17 @@ class CategoryUpdate(CategoryBase):
     pass
 
 
+class CategoryReadSimple(CategoryBase):
+    id: int
+    slug: str
+
+
 class CategoryRead(CategoryBase):
     id: int
     slug: str
     type: TypeRead
+    parent: Optional[CategoryReadSimple] = None
     translated_languages: list[str]
-
-
-class CategoryReadSimple(CategoryBase):
-    id: int
-    slug: str
 
 
 class CategoryPagination(Pagination):

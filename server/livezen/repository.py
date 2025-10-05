@@ -56,3 +56,21 @@ class BaseRepository(Generic[T]):
 
     async def exists(self, **kwargs) -> bool:
         return await self.model.exists(**kwargs)
+
+    async def filter(
+        self,
+        *args,  # Q objects or expressions
+        prefetch: Optional[List[str]] = None,
+        **kwargs  # normal field filters
+    ) -> List[T]:
+        """
+        Generic filter method for BaseRepository.
+
+        Usage:
+            await repo.filter(name__icontains="apple")
+            await repo.filter(Q(categories__id=1) | Q(categories__id=2))
+        """
+        query = self.model.filter(*args, **kwargs)
+        if prefetch:
+            query = query.prefetch_related(*prefetch)
+        return await query

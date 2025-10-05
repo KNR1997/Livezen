@@ -28,8 +28,14 @@ async def paginated_tags(
         for f in filters:
             try:
                 field, value = f.split(":", 1)
-                lookup = {f"{field}__icontains": value}
+
+                # ✅ Support nested related lookups like 'type.slug'
+                field_path = field.replace(".", "__")
+
+                # Build lookup dynamically
+                lookup = {f"{field_path}__icontains": value}
                 condition = Q(**lookup)
+
                 if searchJoin.lower() == "or":
                     q |= condition
                 else:

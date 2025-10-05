@@ -110,12 +110,6 @@ function SelectCategories({
     language: locale,
     ...(Boolean(initialValue?.id) && { self: initialValue?.id }),
   });
-  // const { categories_v2, loading } = useCategoriesQuery_v2({
-  //   limit: 999,
-  //   type: type?.slug,
-  //   language: locale,
-  //   ...(Boolean(initialValue?.id) && { self: initialValue?.id }),
-  // });
   return (
     <div>
       <Label>{t('form:input-label-parent-category')}</Label>
@@ -237,7 +231,7 @@ export default function CreateOrUpdateCategoriesForm({
         id: values?.image?.id,
       },
       icon: values.icon?.value || '',
-      parent: values.parent?.id ?? null,
+      parent_id: values.parent?.id ?? null,
       type_id: values.type?.id,
     };
 

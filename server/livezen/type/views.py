@@ -67,10 +67,10 @@ async def list():
     return type_list
 
 
-@router.get("/{type_id}", response_model=TypeRead)
-async def get_type(type_id: int):
-    """Get a type by its id."""
-    type = await service.get(type_id)
+@router.get("/{slug}", response_model=TypeRead)
+async def get_type(slug: str):
+    """Get a type by its slug."""
+    type = await service.get_by_slug(slug)
     return type
 
 

@@ -1,3 +1,4 @@
+from typing import Any, Optional
 from pydantic import BaseModel
 from tortoise import fields, models
 
@@ -10,16 +11,30 @@ class Type(models.Model):
     icon = fields.CharField(max_length=20)
     slug = fields.CharField(max_length=20)
     translated_languages = fields.JSONField(default=list)
+    settings = fields.JSONField(null=True)
+    banners = fields.JSONField(default=list, null=True)
+    promotional_sliders = fields.JSONField(default=list, null=True)
 
     class Meta:
-        table = "product_type"
+        table = "type"
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "slug": self.slug,
+        }
 
 
 # Pydantic models
 class TypeBase(BaseModel):
     name: str
-    icon: str
-    translated_languages: list[str]
+    slug: Optional[str] = None
+    icon: Optional[str] = None
+    translated_languages: Optional[list[str]] = None
+    settings: Optional[Any] = None
+    banners: Optional[Any] = None
+    promotional_sliders: Optional[Any] = None
 
     model_config = {
         "from_attributes": True

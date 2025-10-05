@@ -13,7 +13,7 @@ class CategoryService:
     async def paginated(
         self, page: int, page_size: int, search: Q = Q(), order: list = []
     ) -> Tuple[int, List[Category]]:
-        return await self.repository.paginated(page, page_size, search, order, prefetch=['type'])
+        return await self.repository.paginated(page, page_size, search, order, prefetch=['type', 'parent'])
 
     async def get(self, category_id: int) -> Category | None:
         """Gets a category by id."""
@@ -25,13 +25,14 @@ class CategoryService:
 
     async def get_by_slug(self, slug: str) -> Category | None:
         """Gets a category by slug."""
-        return await self.repository.get(slug=slug, prefetch=['type'])
+        return await self.repository.get(slug=slug, prefetch=['type', 'parent'])
 
     async def create(self, category_in: CategoryCreate) -> Category:
         slug = slugify(category_in.name)
         return await self.repository.create(
             **category_in.model_dump(exclude={"slug"}),
-            slug=slug
+            slug=slug,
+            translated_languages=["en"]
         )
 
     async def update(self, category: Category, category_in: CategoryUpdate) -> Category:

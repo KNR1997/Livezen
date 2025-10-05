@@ -153,7 +153,6 @@ export default function CreateOrUpdateProductForm({
           ...inputValues,
         });
       } else {
-        console.log('here hereeeeeeeeeeeeeeee')
         //@ts-ignore
         updateProduct({
           ...inputValues,

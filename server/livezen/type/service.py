@@ -26,11 +26,16 @@ class TypeService:
         """Gets a type by name."""
         return await self.repository.get(name=name)
 
+    async def get_by_slug(self, slug: str) -> Type | None:
+        """Gets a type by slug."""
+        return await self.repository.get(slug=slug)
+
     async def create(self, type_in: TypeCreate) -> Type:
         slug = slugify(type_in.name)
         return await self.repository.create(
-            **type_in.model_dump(exclude={"slug"}),
-            slug=slug
+            **type_in.model_dump(exclude={"slug", "translated_languages"}),
+            slug=slug,
+            translated_languages=["en"]
         )
 
     async def update(self, type: Type, type_in: TypeUpdate) -> Type:

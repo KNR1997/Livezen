@@ -309,21 +309,74 @@ export default function CreateOrUpdateTypeForm({ initialValues }: IProps) {
           title: values?.settings?.manufactures?.title,
         },
       },
-      promotional_sliders: values.promotional_sliders?.map(
-        ({ thumbnail, original, id }: any) => ({
-          thumbnail,
-          original,
-          id,
-        }),
-      ),
-      banners: values?.banners?.map((banner) => ({
-        ...banner,
-        image: {
-          id: banner?.image?.id,
-          thumbnail: banner?.image?.thumbnail,
-          original: banner?.image?.original,
+      promotional_sliders: [
+        {
+          thumbnail:
+            'https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/902/conversions/offer-5-thumbnail.jpg',
+          original:
+            'https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/902/offer-5.png',
+          id: '902',
         },
-      })),
+        {
+          thumbnail:
+            'https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/903/conversions/offer-4-thumbnail.jpg',
+          original:
+            'https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/903/offer-4.png',
+          id: '903',
+        },
+        {
+          thumbnail:
+            'https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/904/conversions/offer-3-thumbnail.jpg',
+          original:
+            'https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/904/offer-3.png',
+          id: '904',
+        },
+        {
+          thumbnail:
+            'https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/905/conversions/offer-2-thumbnail.jpg',
+          original:
+            'https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/905/offer-2.png',
+          id: '905',
+        },
+        {
+          thumbnail:
+            'https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/906/conversions/offer-1-thumbnail.jpg',
+          original:
+            'https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/906/offer-1.png',
+          id: '906',
+        },
+      ],
+      banners: [
+        {
+          id: 54,
+          title: 'Groceries Delivered in 90 Minute',
+          type_id: 1,
+          description:
+            'Get your healthy foods & snacks delivered at your doorsteps all day everyday',
+          image: {
+            id: 907,
+            thumbnail:
+              'https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/904/conversions/grocery-thumbnail.jpg',
+            original:
+              'https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/904/grocery.png',
+          },
+        },
+      ],
+      // promotional_sliders: values.promotional_sliders?.map(
+      //   ({ thumbnail, original, id }: any) => ({
+      //     thumbnail,
+      //     original,
+      //     id,
+      //   }),
+      // ),
+      // banners: values?.banners?.map((banner) => ({
+      //   ...banner,
+      //   image: {
+      //     id: banner?.image?.id,
+      //     thumbnail: banner?.image?.thumbnail,
+      //     original: banner?.image?.original,
+      //   },
+      // })),
     };
 
     if (
