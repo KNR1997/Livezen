@@ -8,7 +8,7 @@ from livezen.auth.utils import CurrentUser, create_access_token
 from livezen.config import YMA_JWT_EXP
 from livezen.exceptions import ConflictException, ResourceNotFoundException
 
-from .models import AdminPasswordReset, JWTOut, JWTPayload, UserCreate, UserLogin, UserPagination, UserRead, UserRegister, UserUpdate
+from .models import AdminPasswordReset, JWTOut, JWTPayload, UpdateEmailUserInput, UserCreate, UserLogin, UserPagination, UserRead, UserReadSimple, UserRegister, UserUpdate
 from livezen.enums import UserRole
 
 from .repository import UserRepository
@@ -211,3 +211,15 @@ def admin_reset_password(
 
     # return user
     ...
+
+
+@user_router.post("/update-email", response_model=UserReadSimple)
+async def update_email(data_in: UpdateEmailUserInput, current_user: CurrentUser):
+    """Update a user email."""
+    user = await user_service.get(user_id=current_user.id)
+    if not user:
+        raise ResourceNotFoundException(
+            "A subject with this id does not exist.")
+    return await user_service.update(user=user, user_in=UserUpdate(
+        email=data_in.email
+    ))

@@ -139,13 +139,13 @@ class UserCreate(BaseModel):
 class UserUpdate(BaseModel):
     """Pydantic model for updating user data."""
 
-    full_name: str
-    first_name: str
-    last_name: str
-    name_with_initials: str
+    full_name:  str | None = None
+    first_name:  str | None = None
+    last_name:  str | None = None
+    name_with_initials:  str | None = None
     nic: str | None = None
-    username: str
-    email: EmailStr
+    username:  str | None = None
+    email: EmailStr | None = None
     role: str | None = None
 
 
@@ -166,6 +166,21 @@ class UserRead(BaseModel):
     }
 
 
+class UserReadSimple(BaseModel):
+    id: UUID
+    full_name: str | None
+    first_name: str | None
+    last_name: str | None
+    name_with_initials: str | None
+    nic: str | None
+    username: str | None
+    email: EmailStr
+
+    model_config = {
+        "from_attributes": True
+    }
+
+
 class UserLoginResponse(BaseModel):
     token: str
     role: str
@@ -176,3 +191,7 @@ class UserLoginResponse(BaseModel):
 
 class UserPagination(Pagination):
     data: list[UserRead]
+
+
+class UpdateEmailUserInput(BaseModel):
+    email: EmailStr
