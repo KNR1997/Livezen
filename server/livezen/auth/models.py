@@ -30,11 +30,17 @@ class LivezenUser(models.Model):
         table = "user"
 
 
-def hash_password(password: str):
-    """Hash a password using bcrypt."""
-    pw = bytes(password, "utf-8")
+def hash_password(password: str) -> str:
+    """Hash a password using bcrypt and return as string."""
+    pw = password.encode("utf-8")
     salt = bcrypt.gensalt()
-    return bcrypt.hashpw(pw, salt)
+    hashed = bcrypt.hashpw(pw, salt)
+    return hashed.decode("utf-8")
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Verify a plain password against the hashed one."""
+    return bcrypt.checkpw(plain_password.encode("utf-8"), hashed_password.encode("utf-8"))
 
 
 class UserLogin(BaseModel):
@@ -200,3 +206,8 @@ class UpdateEmailUserInput(BaseModel):
 class ChangePasswordUserInput(BaseModel):
     oldPassword: str
     newPassword: str
+
+
+class ChangePasswordResponse(BaseModel):
+    success: bool
+    message: str

@@ -1,6 +1,7 @@
 from typing import List, Tuple
 from fastapi.security import OAuth2PasswordBearer
 from tortoise.expressions import Q
+from uuid import UUID
 
 
 from ..models import LivezenUser, UserCreate, UserUpdate
@@ -21,7 +22,7 @@ class UserService:
     async def list_users(self) -> list[LivezenUser]:
         return await self.repository.list()
 
-    async def get(self, user_id: int) -> LivezenUser | None:
+    async def get(self, user_id: UUID) -> LivezenUser | None:
         """Gets a user by id."""
         return await self.repository.get(id=user_id)
 

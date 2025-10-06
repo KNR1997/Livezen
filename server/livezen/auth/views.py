@@ -2,13 +2,15 @@ from datetime import datetime, timedelta, timezone
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from tortoise.expressions import Q
+from uuid import UUID
 
 from livezen.auth.permissions import AdminPermission, PermissionsDependency
 from livezen.auth.utils import CurrentUser, create_access_token
 from livezen.config import YMA_JWT_EXP
+from livezen.core.security import verify_password
 from livezen.exceptions import ConflictException, ResourceNotFoundException
 
-from .models import AdminPasswordReset, ChangePasswordUserInput, JWTOut, JWTPayload, UpdateEmailUserInput, UserCreate, UserLogin, UserPagination, UserRead, UserReadSimple, UserRegister, UserUpdate
+from .models import AdminPasswordReset, ChangePasswordResponse, ChangePasswordUserInput, JWTOut, JWTPayload, UpdateEmailUserInput, UserCreate, UserLogin, UserPagination, UserRead, UserReadSimple, UserRegister, UserUpdate, hash_password
 from livezen.enums import UserRole
 
 from .repository import UserRepository
@@ -166,7 +168,7 @@ async def create_user(
     response_model=UserRead,
 )
 async def update_user(
-    user_id: int,
+    user_id: UUID,
     user_in: UserUpdate,
     current_user: CurrentUser,
 ):
@@ -225,7 +227,38 @@ async def update_email(data_in: UpdateEmailUserInput, current_user: CurrentUser)
     ))
 
 
-@user_router.post("/change-password", response_model=UserReadSimple)
-async def change_password(data_in: ChangePasswordUserInput, current_user: CurrentUser):
+@user_router.post("/change-password")
+async def change_password(
+    data_in: ChangePasswordUserInput,
+    current_user: CurrentUser
+):
+    user = await user_service.get(user_id=current_user.id)
+    if not user:
+        raise ResourceNotFoundException(
+            "A subject with this id does not exist.")
+    
     """Change user password"""
-    ...
+    # 1️⃣ Verify old password
+    if not verify_password(data_in.oldPassword, current_user.password):
+        return ChangePasswordResponse(
+            success=False,
+            message="Old password is incorrect."
+        )
+    
+    # 2️⃣ Prevent using the same password again
+    if verify_password(data_in.newPassword, current_user.password):
+        return ChangePasswordResponse(
+            success=False,
+            message="New password must be different from the old password."
+        )
+
+    # 3️⃣ Hash new password and update
+    hashed_new_password = hash_password(data_in.newPassword)
+    user.password = hashed_new_password
+    await user.save()
+
+    # 4️⃣ Return success
+    return ChangePasswordResponse(
+        success=True,
+        message="Password changed successfully"
+    )
