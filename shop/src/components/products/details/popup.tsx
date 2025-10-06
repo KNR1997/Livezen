@@ -6,7 +6,7 @@ import ShortDetails from './short-details';
 import { stickyShortDetailsAtom } from '@/store/sticky-short-details-atom';
 import { useAtom } from 'jotai';
 import { AttributesProvider } from './attributes.context';
-import { useProduct, useProduct_v2 } from '@/framework/product';
+import { useProduct } from '@/framework/product';
 
 const RelatedProducts = dynamic(() => import('./related-products'));
 interface ProductPopupProps {
@@ -16,10 +16,8 @@ const Popup: React.FC<ProductPopupProps> = ({ productSlug }) => {
   const { t } = useTranslation('common');
   const [showStickyShortDetails] = useAtom(stickyShortDetailsAtom);
   const { product, isLoading } = useProduct({ slug: productSlug });
-  const { product_v2, isLoading_v2 } = useProduct_v2({ slug: productSlug });
 
   const productItem: any = product;
-  const productItem_v2: any = product;
 
   const { id, related_products } = product ?? {};
 

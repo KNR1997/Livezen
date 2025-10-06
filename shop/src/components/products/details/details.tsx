@@ -25,6 +25,7 @@ import CategoryBadges from './category-badges';
 import VariationGroups from './variation-groups';
 import VariationPrice from './variation-price';
 import { useSanitizeContent } from '@/lib/sanitize-content';
+import TagGroups from './tag-groups';
 const AddToCart = dynamic(
   () =>
     import('@/components/products/add-to-cart/add-to-cart').then(
@@ -55,6 +56,7 @@ const Details: React.FC<Props> = ({
     description,
     unit,
     categories,
+    tags,
     gallery,
     type,
     quantity,
@@ -64,6 +66,9 @@ const Details: React.FC<Props> = ({
     video,
     product_type,
   } = product ?? {};
+
+  console.log('tags: ', tags)
+  console.log('categories', categories)
 
   const { t } = useTranslation('common');
   const [_, setShowStickyShortDetails] = useAtom(stickyShortDetailsAtom);
@@ -250,28 +255,28 @@ const Details: React.FC<Props> = ({
 
               {!product?.is_external
                 ? !hasVariations && (
-                    <>
-                      {Number(quantity) > 0 ? (
-                        <span className="whitespace-nowrap text-base text-body ltr:lg:ml-7 rtl:lg:mr-7">
-                          {quantity} {t('text-pieces-available')}
-                        </span>
-                      ) : (
-                        <div className="whitespace-nowrap text-base text-red-500">
-                          {t('text-out-stock')}
-                        </div>
-                      )}
-                    </>
-                  )
+                  <>
+                    {Number(quantity) > 0 ? (
+                      <span className="whitespace-nowrap text-base text-body ltr:lg:ml-7 rtl:lg:mr-7">
+                        {quantity} {t('text-pieces-available')}
+                      </span>
+                    ) : (
+                      <div className="whitespace-nowrap text-base text-red-500">
+                        {t('text-out-stock')}
+                      </div>
+                    )}
+                  </>
+                )
                 : ''}
 
               {!isEmpty(selectedVariation) && (
                 <span className="whitespace-nowrap text-base text-body ltr:lg:ml-7 rtl:lg:mr-7">
                   {selectedVariation?.is_disable ||
-                  selectedVariation.quantity === 0
+                    selectedVariation.quantity === 0
                     ? t('text-out-stock')
                     : `${selectedVariation.quantity} ${t(
-                        'text-pieces-available',
-                      )}`}
+                      'text-pieces-available',
+                    )}`}
                 </span>
               )}
             </div>
@@ -280,6 +285,14 @@ const Details: React.FC<Props> = ({
           {!!categories?.length && (
             <CategoryBadges
               categories={categories}
+              basePath={`/${type?.slug}`}
+              onClose={closeModal}
+            />
+          )}
+
+          {!!tags?.length && (
+            <TagGroups
+              tags={tags}
               basePath={`/${type?.slug}`}
               onClose={closeModal}
             />

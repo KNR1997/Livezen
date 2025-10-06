@@ -35,8 +35,6 @@ const ShortDetails: React.FC<ShortDetailsProps> = ({ product, isSticky }) => {
   const { closeModal } = useModalAction();
   const { attributes } = useAttributes();
 
-  console.log('attributes: ', attributes)
-
   const {
     name,
     slug,
@@ -64,14 +62,7 @@ const ShortDetails: React.FC<ShortDetailsProps> = ({ product, isSticky }) => {
       getVariations(product?.variations),
     [product?.variations, product_type]
   );
-
-  // console.log('variations memoooooooooooo: ', variations)
-
   const isSelected = isVariationSelected(variations, attributes);
-
-  // console.log('variations: ', product?.variations)
-  console.log('variation_options: ', product?.variation_options)
-
   let selectedVariation: any = {};
   if (isSelected) {
     selectedVariation = product?.variation_options?.find((o: any) =>
@@ -81,8 +72,6 @@ const ShortDetails: React.FC<ShortDetailsProps> = ({ product, isSticky }) => {
       )
     );
   }
-
-  console.log('selectedVariation: ', selectedVariation)
 
   const hasVariations =
     !isEmpty(variations) && product_type?.toLowerCase() === 'variable';
