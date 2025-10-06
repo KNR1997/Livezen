@@ -43,7 +43,7 @@ function CustomApp({
   return (
     <>
       <div dir={dir}>
-        <SessionProvider session={session}>
+        {/* <SessionProvider session={session}> */}
           <QueryProvider pageProps={pageProps}>
             <SearchProvider>
               <ModalProvider>
@@ -62,13 +62,13 @@ function CustomApp({
                     <ManagedModal />
                     <ManagedDrawer />
                     <ToastContainer autoClose={2000} theme="colored" />
-                    <SocialLogin />
+                    {/* <SocialLogin /> */}
                   </>
                 </CartProvider>
               </ModalProvider>
             </SearchProvider>
           </QueryProvider>
-        </SessionProvider>
+        {/* </SessionProvider> */}
       </div>
     </>
   );
