@@ -16,7 +16,7 @@ class ProductService:
     async def paginated(
         self, page: int, page_size: int, search: Q = Q(), order: list = []
     ) -> Tuple[int, List[Product]]:
-        return await self.repository.paginated(page, page_size, search, order, prefetch=['type', 'categories'])
+        return await self.repository.paginated(page, page_size, search, order, prefetch=['type', 'categories', 'tags'])
 
     async def list_products(self) -> list[Product]:
         return await self.repository.list()
@@ -35,7 +35,7 @@ class ProductService:
 
     async def get_by_slug(self, slug: str) -> Product | None:
         """Get a product by slug including related products."""
-        product = await self.repository.get(slug=slug, prefetch=['type', 'categories'])
+        product = await self.repository.get(slug=slug, prefetch=['type', 'categories', 'tags'])
         if not product:
             return None
 

@@ -6,7 +6,7 @@ from livezen.category.models import Category, CategoryReadSimple
 from livezen.enums import ProductStatus, ProductType
 from livezen.models import Pagination
 from livezen.type.models import Type, TypeRead
-from livezen.tag.models import Tag
+from livezen.tag.models import Tag, TagReadSimple
 
 
 class Product(models.Model):
@@ -81,6 +81,7 @@ class ProductRead(ProductBase):
     id: int
     type: Optional[TypeRead] = None
     categories: list[CategoryReadSimple]
+    tags: list[TagReadSimple]
     related_products: Optional[List[ProductReadSimple]] = []
 
 
