@@ -8,7 +8,7 @@ from livezen.auth.utils import CurrentUser, create_access_token
 from livezen.config import YMA_JWT_EXP
 from livezen.exceptions import ConflictException, ResourceNotFoundException
 
-from .models import AdminPasswordReset, JWTOut, JWTPayload, UpdateEmailUserInput, UserCreate, UserLogin, UserPagination, UserRead, UserReadSimple, UserRegister, UserUpdate
+from .models import AdminPasswordReset, ChangePasswordUserInput, JWTOut, JWTPayload, UpdateEmailUserInput, UserCreate, UserLogin, UserPagination, UserRead, UserReadSimple, UserRegister, UserUpdate
 from livezen.enums import UserRole
 
 from .repository import UserRepository
@@ -223,3 +223,9 @@ async def update_email(data_in: UpdateEmailUserInput, current_user: CurrentUser)
     return await user_service.update(user=user, user_in=UserUpdate(
         email=data_in.email
     ))
+
+
+@user_router.post("/change-password", response_model=UserReadSimple)
+async def change_password(data_in: ChangePasswordUserInput, current_user: CurrentUser):
+    """Change user password"""
+    ...

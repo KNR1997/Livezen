@@ -195,3 +195,8 @@ class UserPagination(Pagination):
 
 class UpdateEmailUserInput(BaseModel):
     email: EmailStr
+
+
+class ChangePasswordUserInput(BaseModel):
+    oldPassword: str
+    newPassword: str
