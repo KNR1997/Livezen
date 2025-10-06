@@ -45,15 +45,16 @@ async def get_current_user(
             algorithms=[YMA_JWT_ALG]
         )
         # assuming you store user email in "sub"
-        email: str = payload.get("email")
-        if email is None:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+        # email: str = payload.get("email")
+        user_id: str = payload.get("user_id")
+        # if email is None:
+        #     raise HTTPException(
+        #         status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
     except JWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
-    user = await LivezenUser.get_or_none(email=email)
+    user = await LivezenUser.get_or_none(id=user_id)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
