@@ -74,3 +74,23 @@ class BaseRepository(Generic[T]):
         if prefetch:
             query = query.prefetch_related(*prefetch)
         return await query
+
+    async def get_or_create(self, defaults: Optional[dict] = None, **kwargs) -> Tuple[T, bool]:
+        """
+        Tries to get an existing object. If not found, creates a new one.
+
+        Returns:
+            (instance, created)
+            - instance: The retrieved or newly created object.
+            - created: True if a new object was created, False if it already existed.
+        """
+        defaults = defaults or {}
+
+        instance = await self.get(**kwargs)
+        if instance:
+            return instance, False
+
+        # Merge lookup kwargs and defaults for creation
+        create_data = {**kwargs, **defaults}
+        instance = await self.create(**create_data)
+        return instance, True

@@ -54,7 +54,7 @@ async def get_current_user(
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
-    user = await LivezenUser.get_or_none(id=user_id)
+    user = await LivezenUser.get_or_none(id=user_id).prefetch_related('profile')
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")

@@ -104,6 +104,9 @@ export const useUpdateUserMutation = () => {
       queryClient.invalidateQueries(API_ENDPOINTS.ME);
       queryClient.invalidateQueries(API_ENDPOINTS.USERS);
     },
+    onError: () => {
+      toast.error(t('common:text-something-wrong'));
+    },
   });
 };
 export const useUpdateUserEmailMutation = () => {

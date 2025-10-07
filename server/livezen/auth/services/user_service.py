@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Any, List, Tuple
 from fastapi.security import OAuth2PasswordBearer
 from tortoise.expressions import Q
 from uuid import UUID
@@ -44,9 +44,9 @@ class UserService:
             return instance
         return await self.repository.create(**user_in.model_dump())
 
-    async def update(self, user: LivezenUser, user_in: UserUpdate) -> LivezenUser:
-        """Updates a user."""
-        return await self.repository.update(user, **user_in.model_dump(exclude_unset=True))
+    async def update(self, user: LivezenUser, data: dict[str, Any]) -> LivezenUser:
+        """Updates a user with the given data."""
+        return await self.repository.update(user, **data)
 
     async def delete(self, user_id: int) -> bool:
         """Deletes a user."""

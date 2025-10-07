@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import Any, Optional
 from uuid import UUID
 import bcrypt
 
@@ -8,11 +8,12 @@ from pydantic import BaseModel, EmailStr, field_validator
 from tortoise import fields, models
 
 from livezen.enums import UserRole
-from livezen.models import Pagination
+from livezen.models import Pagination, TimestampMixin
 
 
 class LivezenUser(models.Model):
     id = fields.UUIDField(pk=True, index=True)
+    name = fields.TextField(null=True)
     full_name = fields.TextField(null=True)
     first_name = fields.TextField(null=True)
     last_name = fields.TextField(null=True)
@@ -26,8 +27,30 @@ class LivezenUser(models.Model):
     last_login = fields.DatetimeField(null=True)
     role = fields.CharEnumField(UserRole)
 
+    # One-to-one relation (reverse relation)
+    profile: fields.OneToOneRelation["Profile"]
+
     class Meta:
         table = "user"
+
+
+class Profile(models.Model, TimestampMixin):
+    id = fields.BigIntField(pk=True, index=True)
+    avatar = fields.JSONField(null=True)
+    bio = fields.TextField(null=True)
+    socials = fields.TextField(null=True)
+    contact = fields.CharField(max_length=20, null=True)
+    notifications = fields.JSONField(null=True)
+
+    # One-to-one field to enforce unique link between user and profile
+    user: fields.OneToOneRelation[LivezenUser] = fields.OneToOneField(
+        "models.LivezenUser",
+        related_name="profile",
+        on_delete=fields.CASCADE,  # optional: cascade delete profile when user is deleted
+    )
+
+    class Meta:
+        table = "profile"
 
 
 def hash_password(password: str) -> str:
@@ -125,7 +148,7 @@ class AdminPasswordReset(BaseModel):
 
 class UserCreate(BaseModel):
     """Pydantic model for creating a new user."""
-
+    name: str | None = None
     full_name: str
     first_name: str
     last_name: str
@@ -142,21 +165,42 @@ class UserCreate(BaseModel):
         return hash_password(str(v))
 
 
+class ProfileCreate(BaseModel):
+    """Pydantic model for creating a new user profile."""
+    # avatar: str | None = None
+    bio: str | None = None
+    # socials: str | None = None
+    contact: str | None = None
+    notifications: Any | None = None
+
+
 class UserUpdate(BaseModel):
     """Pydantic model for updating user data."""
-
+    name: str | None = None
     full_name:  str | None = None
     first_name:  str | None = None
     last_name:  str | None = None
     name_with_initials:  str | None = None
     nic: str | None = None
     username:  str | None = None
-    email: EmailStr | None = None
+    email: Optional[EmailStr] = None
     role: str | None = None
+    profile: ProfileCreate | None = None
+
+
+class ProfileRead(BaseModel):
+    bio: str | None
+    contact: str | None
+    notifications: Any | None
+
+    model_config = {
+        "from_attributes": True
+    }
 
 
 class UserRead(BaseModel):
     id: UUID
+    name: str | None
     full_name: str | None
     first_name: str | None
     last_name: str | None
@@ -166,6 +210,7 @@ class UserRead(BaseModel):
     email: EmailStr
     role: UserRole
     is_active: bool
+    profile: Optional[ProfileRead] = None
 
     model_config = {
         "from_attributes": True
@@ -174,6 +219,7 @@ class UserRead(BaseModel):
 
 class UserReadSimple(BaseModel):
     id: UUID
+    name: str | None
     full_name: str | None
     first_name: str | None
     last_name: str | None

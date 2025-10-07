@@ -14,8 +14,10 @@ from .models import AdminPasswordReset, ChangePasswordResponse, ChangePasswordUs
 from livezen.enums import UserRole
 
 from .repository import UserRepository
+from .repository import ProfileRepository
 from .services.user_service import UserService
 from .services.auth_service import AuthService
+from .services.profile_service import ProfileService
 
 
 auth_router = APIRouter()
@@ -23,6 +25,7 @@ user_router = APIRouter()
 
 user_service = UserService(UserRepository())
 auth_service = AuthService(UserRepository())
+profile_service = ProfileService(ProfileRepository(), UserRepository())
 
 
 @auth_router.post("/register", response_model=JWTOut)
@@ -165,7 +168,7 @@ async def create_user(
 @user_router.put(
     "/{user_id}",
     dependencies=[Depends(PermissionsDependency([AdminPermission]))],
-    response_model=UserRead,
+    response_model=UserReadSimple,
 )
 async def update_user(
     user_id: UUID,
@@ -173,11 +176,28 @@ async def update_user(
     current_user: CurrentUser,
 ):
     """Update a user."""
+    # 1. Get the existing user
     user = await user_service.get(user_id=user_id)
     if not user:
         raise ResourceNotFoundException(
             "A subject with this id does not exist.")
-    return await user_service.update(user=user, user_in=user_in)
+
+    # 2. Extract only user-related fields
+    user_update_data = user_in.model_dump(
+        exclude_unset=True, exclude={"profile"})
+
+    # 3. Update the user
+    user = await user_service.update(user=user, data=user_update_data)
+
+    # 4. Handle profile separately
+    if user_in.profile:
+        profile = await profile_service.get_by_user(user_id=user.id)
+        if profile:
+            await profile_service.update(profile=profile, data=user_in.profile.model_dump(exclude_unset=True))
+        else:
+            await profile_service.create(user_id=user.id, data=user_in.profile.model_dump(exclude_unset=True))
+
+    return user
 
 
 @user_router.post("/{user_id}/reset-password", response_model=UserRead)
@@ -222,9 +242,7 @@ async def update_email(data_in: UpdateEmailUserInput, current_user: CurrentUser)
     if not user:
         raise ResourceNotFoundException(
             "A subject with this id does not exist.")
-    return await user_service.update(user=user, user_in=UserUpdate(
-        email=data_in.email
-    ))
+    return await user_service.update(user=user, data={"email": data_in.email})
 
 
 @user_router.post("/change-password")
@@ -236,7 +254,7 @@ async def change_password(
     if not user:
         raise ResourceNotFoundException(
             "A subject with this id does not exist.")
-    
+
     """Change user password"""
     # 1️⃣ Verify old password
     if not verify_password(data_in.oldPassword, current_user.password):
@@ -244,7 +262,7 @@ async def change_password(
             success=False,
             message="Old password is incorrect."
         )
-    
+
     # 2️⃣ Prevent using the same password again
     if verify_password(data_in.newPassword, current_user.password):
         return ChangePasswordResponse(

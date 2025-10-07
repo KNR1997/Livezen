@@ -1,7 +1,9 @@
 from typing import List, Optional, Tuple
 from tortoise.expressions import Q
 
-from .models import LivezenUser
+from livezen.repository import BaseRepository
+
+from .models import LivezenUser, Profile
 
 
 class UserRepository:
@@ -28,8 +30,8 @@ class UserRepository:
         return user
 
     async def get(
-        self, 
-        prefetch: Optional[List[str]] = None, 
+        self,
+        prefetch: Optional[List[str]] = None,
         **filters
     ) -> Optional[LivezenUser]:
         if prefetch:
@@ -55,3 +57,8 @@ class UserRepository:
 
     async def exists(self, **kwards) -> bool:
         return await LivezenUser.exists(**kwards)
+
+
+class ProfileRepository(BaseRepository[Profile]):
+    def __init__(self):
+        super().__init__(Profile)
